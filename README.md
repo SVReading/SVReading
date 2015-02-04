@@ -1,4 +1,4 @@
 # SVReading
 
 Kevin - testing push
-Josh - testing push.
+Josh - testing push
