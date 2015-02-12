@@ -1,12 +1,11 @@
 package edu.gatech.cats.svreading.View;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.wikitude.architect.ArchitectView;
 
@@ -46,8 +45,6 @@ public class CameraFragment extends Fragment {
             this.architectView.onPostCreate();
         } catch (RuntimeException e){
             this.architectView = null;
-            Toast.makeText(getActivity().getApplicationContext(), "Cannot create Architect View!",
-                    Toast.LENGTH_SHORT).show();
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
         }
     }
