@@ -22,10 +22,15 @@
             android:paddingTop="?attr/actionBarSize"
             android:divider="@android:color/transparent" />
     </android.support.v4.widget.DrawerLayout>
+
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar"
         android:background="@android:color/transparent"/>
+    <com.wikitude.architect.ArchitectView
+        android:id="@+id/architectView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 </RelativeLayout>

@@ -1,81 +1,42 @@
 package edu.gatech.cats.svreading.View;
 
-import android.app.FragmentManager;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import edu.gatech.cats.svreading.R;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ARActivity {
 
     /**
      * The nav draw toggle that handles listening to/opening and closing the nav drawer
      */
-    private ActionBarDrawerToggle drawerToggle;
 
     /**
      * The draw layout holding the nav drawer
      */
-    private DrawerLayout drawerLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private  final String WORLD_PATH = "index.html";
+    private  final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
 
-        //Set up the camera fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.content_frame, new CameraFragment()).commit();
 
-        //Set up the toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //Set up the nav drawer
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_closed
-        );
-        drawerLayout.setDrawerListener(drawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle("");
-        drawerToggle.syncState();
-
-        ListView navDrawerListView = (ListView) findViewById(R.id.nav_drawer);
-        String[] books = {"The Cat in the Hat", "Clifford the Big Red Dog"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, books);
-        navDrawerListView.setAdapter(adapter);
+    public String getARchitectWorldPath() {
+        return WORLD_PATH;
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+    public String getActivityTitle() {
+        return getString(R.string.app_name);
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+    public int getContentViewId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    public void onBackPressed() {
-        //Handle pressing back when the drawer is open
-        if(drawerLayout.isDrawerOpen(Gravity.START)){
-            drawerLayout.closeDrawers();
-            return;
-        }
-        super.onBackPressed();
+    public int getArchitectViewId() {
+        return R.id.architectView;
+    }
+
+    @Override
+    public String getWikitudeSDKLicenseKey() {
+        return WIKITUDE_SDK_KEY;
     }
 }
