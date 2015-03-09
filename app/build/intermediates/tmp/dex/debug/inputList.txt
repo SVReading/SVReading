@@ -1,0 +1,7 @@
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\classes\debug
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9ed3185612de7811ede2c5cbb57e89ef96934987.jar
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d355baa7f4d43a4560b811cf5df7ff41a455b8fb.jar
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\classes-d0b9698def2e7b6e5e7a082b10b55792dd6fb0ca.jar
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\classes-7ddfbeccffc77262c051b7133df63e19e690cf55.jar
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\classes-567d64d66cc8bc6eeb3b98a2e262c82d0658abbb.jar
+C:\Users\kvnsm_000\Documents\SV Reading\SVReading\app\build\intermediates\pre-dexed\debug\wikitudesdk-ad6265e8c8c1e4dc682b61a22199211c1ef1d18d.jar

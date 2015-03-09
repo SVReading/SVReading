@@ -1,4 +1,3 @@
 # SVReading
 
-Kevin - testing push
-Josh - testing push.
+Added WikiTrial project folder that I'm testing on.
