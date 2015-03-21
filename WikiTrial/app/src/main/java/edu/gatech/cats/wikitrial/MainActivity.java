@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         this.architectView.onPostCreate();
         Log.i("LOG", "Attempting to load index.html");
         try {
-            this.architectView.load( "../../../../../assets/IR/index.html" );
+            this.architectView.load( "index.html" );
             Log.i("LOG", "index.html loaded.");
         } catch (IOException e) {
             e.printStackTrace();

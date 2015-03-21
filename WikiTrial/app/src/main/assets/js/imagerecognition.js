@@ -14,7 +14,7 @@ var World = {
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
 		AR.logger.debug ("Initializing tracker");
-		this.tracker = new AR.Tracker("assets/magazine.wtc", {
+		this.tracker = new AR.Tracker("images/magazine.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -24,7 +24,7 @@ var World = {
 
 		/* Create overlay for page one */
 		AR.logger.debug ("Creating overlay one");
-		var imgOne = new AR.ImageResource("assets/imageOne.png");
+		var imgOne = new AR.ImageResource("images/imageOne.png");
 		var overlayOne = new AR.ImageDrawable(imgOne, 1, {
 			offsetX: 0,
 			offsetY: 0
@@ -50,7 +50,7 @@ var World = {
 		var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
 		document.getElementById('loadingMessage').innerHTML =
 			"<div" + cssDivLeft + ">Scan Target &#35;1 (surfer):</div>" +
-			"<div" + cssDivRight + "><img src='assets/surfer.png'></img></div>";
+			"<div" + cssDivRight + "><img src='images/surfer.png'></img></div>";
 
 		// Remove Scan target message after 10 sec.
 		setTimeout(function() {
