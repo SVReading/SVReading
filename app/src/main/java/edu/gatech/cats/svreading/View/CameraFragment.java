@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.wikitude.architect.ArchitectView;
 
+import java.io.IOException;
+
 import edu.gatech.cats.svreading.R;
 
 /**
@@ -21,7 +23,7 @@ public class CameraFragment extends Fragment {
      */
     private ArchitectView architectView;
 
-    private static final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
+    private static final String WIKITUDE_SDK_KEY = "duca3B2Ea9WNrZsme5Q02LS6Md/3KwcrsoPzyBbVrzMjIQpx7uX2wMm0c/zD899TKMoOQaGHDW4EUqqERCAUxNjJkyDTZfF3QkbReB1v9VldNQX9JnoTwuyOYBBf5s9G6oPKQljZpZEXrcM7LFcV/iPAgDTPzyllGsrUBHQ38m9TYWx0ZWRfX+p4MJuZXKms9+sFFqgeCVflRI4P1mSUoeWD8W2/akWfzwAGkKfc+wH68/J4lEjY8IWBJ0Emm2lKuo7qViImhmIYV3HvTi8Ff6GtMu1elyGCLfWFZCj9K7BDHNmdkdGbSFuAONrcCQrY9jhZJO9Ht/Fc4jDjCoK7ldahs9RyIQM3wRSKMe2gO5rcNPPH3zDfuDXaKdWf0J+vsqS9n88OjIx26QWZtxRlxsqeFlaDjZf56smNLL6qnMWP0Yb9+tjHWpvWUV8ZiB1+RZqAk8yWoUu1bvreB9vyz5LP1dpQxAxN8KLnfpj61/iPHyFHDInR2wUIwrwHB8SrJVlOYtIPoGsUKhYYEbRapOYe/ZYSkZs95KgKCeVDfLFwCavt7b5FboJb6h+Kr1d3lh4AyAA8Pj3f13Wi0WLOedd7+mhvg+Eb/jsu8NbxIfYJLG3zPzXf3Qt5NqE13e7PAsazkbxkQGQ7/UrlvL0FaoteoHX/rLwF5AFY6AwA2cw=";
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -46,6 +48,15 @@ public class CameraFragment extends Fragment {
         } catch (RuntimeException e){
             this.architectView = null;
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
+        }
+
+        //Load the architect world view
+        try {
+            this.architectView.load( "index.html" );
+            Log.i("LOG", "index.html loaded.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i("LOG", "Couldn't load index.html");
         }
     }
 
