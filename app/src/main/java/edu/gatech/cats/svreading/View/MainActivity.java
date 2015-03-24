@@ -17,6 +17,8 @@ import android.widget.ListView;
 
 import com.wikitude.architect.ArchitectView;
 
+import java.io.IOException;
+
 import edu.gatech.cats.svreading.R;
 
 public class MainActivity extends ActionBarActivity {
@@ -92,7 +94,15 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
 
-        architectView.onPostCreate();
+        this.architectView.onPostCreate();
+        Log.i("LOG", "Attempting to load index.html");
+        try {
+            this.architectView.load( "index.html" );
+            Log.i("LOG", "index.html loaded.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i("LOG", "Couldn't load index.html");
+        }
     }
 
     @Override
