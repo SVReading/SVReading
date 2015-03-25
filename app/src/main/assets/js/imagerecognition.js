@@ -34,10 +34,12 @@ var World = {
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
 		AR.logger.debug ("Initializing trackable object");
-		var pageOne = new AR.Trackable2DObject(this.tracker, "page_one", {
-			drawables: {
-				cam: overlayOne
-			}
+		var pageOne = new AR.Trackable2DObject(this.tracker, "Clifford", {
+			onEnterFieldOfVision :
+                function openLinkFn() {
+                    AR.logger.debug ("Opening Link!");
+                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=ZZ5LpwO-An4");
+                }
 		});
 
 		AR.logger.debug ("Leaving createOverlays");
