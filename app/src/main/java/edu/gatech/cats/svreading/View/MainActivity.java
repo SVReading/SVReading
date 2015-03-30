@@ -1,5 +1,8 @@
 package edu.gatech.cats.svreading.View;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -17,10 +20,17 @@ import android.widget.ListView;
 
 import com.wikitude.architect.ArchitectView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
 
 import edu.gatech.cats.svreading.R;
 
+//import org.json.simple.parser.JSONParser;
+//import org.json.simple.parser.ParseException;
 public class MainActivity extends ActionBarActivity {
 
     /**
@@ -40,7 +50,8 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
 
-
+    String jsonBooks = null;
+    String[] books = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
             this.architectView = null;
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
         }
+        DialogFragment newFragment = new scanBookDialogFragment();
+        newFragment.show(getFragmentManager(), "scanBookDiag");
 
         //Set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -76,8 +89,47 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setTitle("");
         drawerToggle.syncState();
 
+
+        //try JSON
+        try {
+            jsonBooks =  loadJSONFromAsset(jsonBooks);
+
+            /****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+            JSONObject jsonResponse = new JSONObject(jsonBooks);
+
+            JSONArray bookNames = jsonResponse.names();
+            books = new String[bookNames.length()];
+            fillDrawer(bookNames);
+
+
+            //JSONArray bookArray = jsonResponse.getJSONArray("Cat in The Hat");
+
+
+//            for(int i=0; i < bookArray.length(); i++)
+//            {
+//                /****** Get Object for each JSON node.***********/
+//                JSONObject jsonChildNode = bookArray.getJSONObject(i);
+//
+//                /******* Fetch node values **********/
+//
+//                books[0] = jsonChildNode.optString("Book").toString();
+//                // Log.i("LOG", books[0] +"JSON PISS");
+//                books[1] = jsonChildNode.optString("Author").toString();
+//
+//
+//            }
+
+
+
+
+
+        }  catch (JSONException e) {
+        e.printStackTrace();
+        }
+
+
+        // finish reading json file
         ListView navDrawerListView = (ListView) findViewById(R.id.nav_drawer);
-        String[] books = {"The Cat in the Hat", "Clifford the Big Red Dog"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, books);
         navDrawerListView.setAdapter(adapter);
@@ -96,12 +148,15 @@ public class MainActivity extends ActionBarActivity {
 
         this.architectView.onPostCreate();
         Log.i("LOG", "Attempting to load index.html");
-        try {
+        try
+        {
             this.architectView.load( "index.html" );
-            Log.i("LOG", "index.html loaded.");
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             Log.i("LOG", "Couldn't load index.html");
+
         }
     }
 
@@ -163,4 +218,50 @@ public class MainActivity extends ActionBarActivity {
             ex.printStackTrace();
         }
     }
+
+    protected String loadJSONFromAsset(String j) {
+        try {
+
+            InputStream is = getAssets().open("Books.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            j = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+            return null;
+        }
+        return j;
+
+    }
+
+    protected void fillDrawer(JSONArray bookList)
+    {
+        for(int i=0; i < bookList.length(); i++)
+        {
+            books[i] = bookList.optString(i);
+        }
+
+    }
+
+    public class scanBookDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Scan the book cover of the book you want to read").setPositiveButton("OK", null);
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+
 }
