@@ -38,7 +38,7 @@ var World = {
 			onEnterFieldOfVision :
                 function openLinkFn() {
                     AR.logger.debug ("Opening Link!");
-                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=ZZ5LpwO-An4");
+                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
                 }
 		});
 

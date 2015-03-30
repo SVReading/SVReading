@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
         navDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                callYoutube("https://www.youtube.com/watch?v=ZZ5LpwO-An4");
+                callYoutube("https://www.youtube.com/watch?v=Iu0VTI-ZSHQ");
             }
         });
     }
