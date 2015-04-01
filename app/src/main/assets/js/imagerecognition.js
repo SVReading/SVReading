@@ -13,8 +13,23 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
+		/*
+			SUPPORT FOR MULTIPLE BOOKS
+			Can I use multiple trackers? Array of trackers? NO can have mutliple trackers but only one can be enabled at a time.
+			Can I use multiple trackableobjects? Loop connect trackers to trackable objects? YES, but again only for one tracker. This could be used for videos though? Loop through and get videos for each trackable object (book)
+			Can I get name of recognized object?  I THINK SO, with property targetName. This could also be used for videos. 
+		*/
 		AR.logger.debug ("Initializing tracker");
-		this.tracker = new AR.Tracker("images/books.wtc", {
+		
+		var tracker2 = new AR.Tracker("images/secondlevelclifford.wtc", {
+			onLoaded: this.worldLoaded
+		});
+		
+		var tracker3 = new AR.Tracker("images/secondleveltext.wtc", {
+			onLoaded: this.worldLoaded
+		});
+		
+		var tracker1 = new AR.Tracker("images/firstlevel.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -35,10 +50,41 @@ var World = {
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
 		AR.logger.debug ("Initializing trackable object");
-		var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
+		var pageOne = new AR.Trackable2DObject(tracker1, "clifford", {
+			
+			onEnterFieldOfVision :
+				function opentracker2() {
+					AR.logger.debug ("Opening Tracker 2 - Clifford!");
+						tracker2.enabled = true;
+				}
+			
+		});
+		
+		AR.logger.debug ("Initializing trackable object");
+		var pageOneFive = new AR.Trackable2DObject(tracker1, "osbook", {
+			
+			onEnterFieldOfVision :
+				function opentracker3() {
+					AR.logger.debug ("Opening Tracker 3 - osbook!");
+						tracker3.enabled = true;
+				}
+			
+		});
+		
+		var pageThree = new AR.Trackable2DObject(tracker3, "*", {
+			
 			drawables: {
 				cam: overlayOne
 			}
+			
+		});
+		
+		var pageTwo = new AR.Trackable2DObject(tracker2, "*", {
+			
+			drawables: {
+				cam: overlayOne
+			}
+			
 		});
 		
 		AR.logger.debug ("Leaving createOverlays");
