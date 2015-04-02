@@ -22,11 +22,42 @@ var World = {
 		AR.logger.debug ("Initializing tracker");
 		
 		var tracker2 = new AR.Tracker("images/secondlevelclifford.wtc", {
-			onLoaded: this.worldLoaded
+			onLoaded:
+			this.worldLoaded
+		});
+		
+		var clifford2 = new AR.Trackable2DObject(tracker2, "cliffordFriends", {
+			
+			onEnterFieldOfVision :
+				function revert2() {
+					var en1 = tracker1.enabled;
+					var en2 = tracker2.enabled;
+					if (en1)
+						AR.logger.debug ("tracker 1 is enabled");
+					else if (en2)
+						AR.logger.debug ("Tracker 2 is enabled");
+					else
+						AR.logger.debug ("Neither tracker is enabled?");
+						
+					AR.logger.debug ("Revert after finding - " + clifford2.targetName);
+						tracker1.enabled = true;
+				}
+			
 		});
 		
 		var tracker3 = new AR.Tracker("images/secondleveltext.wtc", {
 			onLoaded: this.worldLoaded
+		});
+		
+		var text2 = new AR.Trackable2DObject(tracker3, "textbooks", {
+			
+			onEnterFieldOfVision :
+				function revert() {
+						
+					AR.logger.debug ("Revert after finding - " + text2.targetName);
+						tracker1.enabled = true;
+				}
+			
 		});
 		
 		var tracker1 = new AR.Tracker("images/firstlevel.wtc", {
@@ -49,43 +80,34 @@ var World = {
 			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
+		/*
+		
+			Can I load new trackers dynamically upon a hit of a target?
+			Find out what * is giving me.
+		
+		*/
 		AR.logger.debug ("Initializing trackable object");
-		var pageOne = new AR.Trackable2DObject(tracker1, "clifford", {
+		var clifford = new AR.Trackable2DObject(tracker1, "clifford", {
 			
 			onEnterFieldOfVision :
 				function opentracker2() {
-					AR.logger.debug ("Opening Tracker 2 - Clifford!");
+					AR.logger.debug ("Opening Tracker 2 - " + clifford.targetName);
 						tracker2.enabled = true;
 				}
 			
 		});
 		
 		AR.logger.debug ("Initializing trackable object");
-		var pageOneFive = new AR.Trackable2DObject(tracker1, "osbook", {
+		var text = new AR.Trackable2DObject(tracker1, "*", {
 			
 			onEnterFieldOfVision :
 				function opentracker3() {
-					AR.logger.debug ("Opening Tracker 3 - osbook!");
+					AR.logger.debug ("Opening Tracker 3 - " + text.targetName);
 						tracker3.enabled = true;
 				}
 			
 		});
 		
-		var pageThree = new AR.Trackable2DObject(tracker3, "*", {
-			
-			drawables: {
-				cam: overlayOne
-			}
-			
-		});
-		
-		var pageTwo = new AR.Trackable2DObject(tracker2, "*", {
-			
-			drawables: {
-				cam: overlayOne
-			}
-			
-		});
 		
 		AR.logger.debug ("Leaving createOverlays");
 	},
