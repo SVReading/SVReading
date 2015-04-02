@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">SVReading</string>
     <string name="nav_drawer_closed">Closed</string>
     <string name="nav_drawer_open">Open</string>
+    <string name="title_activity_ar">ARActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>
