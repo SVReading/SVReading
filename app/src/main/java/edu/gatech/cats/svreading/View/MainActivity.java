@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.wikitude.architect.ArchitectView;
 
@@ -26,6 +27,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.gatech.cats.svreading.R;
 
@@ -33,31 +36,31 @@ import edu.gatech.cats.svreading.R;
 //import org.json.simple.parser.ParseException;
 public class MainActivity extends ActionBarActivity {
 
+    private static final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
+    String jsonBooks = null;
+    String[] books = null;
+    Map<String, String> pages = new HashMap<String, String>();
     /**
      * The nav draw toggle that handles listening to/opening and closing the nav drawer
      */
     private ActionBarDrawerToggle drawerToggle;
-
     /**
      * The draw layout holding the nav drawer
      */
     private DrawerLayout drawerLayout;
-
     /**
      * Holds the Wikitude SDK ArchitectView (where the camera, markers, etc. are rendered)
      */
     private ArchitectView architectView;
-
-    private static final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
-
-    String jsonBooks = null;
-    String[] books = null;
+    private JsHandler jsHandler;
+    private TextView currentBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.currentBook =  (TextView) findViewById(R.id.trackedBook);
         //Set the ArchitectView
         this.architectView = (ArchitectView) findViewById(R.id.architectView);
 
@@ -71,6 +74,19 @@ public class MainActivity extends ActionBarActivity {
             this.architectView = null;
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
         }
+
+        //jsHandler = new JsHandler(this, architectView);
+        architectView.registerUrlListener(new ArchitectView.ArchitectUrlListener()
+        {
+            @Override
+            public boolean urlWasInvoked(String arg0)
+            {
+                String delims = "architectsdk://";
+                String[] tokens = arg0.split(delims);
+                currentBook.setText(tokens[0]);
+                return false;
+            }
+        });
         DialogFragment newFragment = new scanBookDialogFragment();
         newFragment.show(getFragmentManager(), "scanBookDiag");
 
@@ -253,7 +269,17 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public class scanBookDialogFragment extends DialogFragment {
+    protected void createDS(JSONArray book)
+    {
+        for(int i=0; i < pages.length(); i++)
+        {
+
+             pages.put(book.na)= bookList.optString(i);
+        }
+    }
+
+    public class scanBookDialogFragment extends DialogFragment
+    {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction

@@ -1,11 +1,13 @@
 var World = {
 	loaded: false,
 
-	init: function initFn() {
+	init: function initFn() 
+	{
 		this.createOverlays();
 	},
 
-	createOverlays: function createOverlaysFn() {
+	createOverlays: function createOverlaysFn()
+	 {
 		AR.logger.debug ("Entering createOverlays");
 		/*
 			First an AR.Tracker needs to be created in order to start the recognition engine. It is initialized with a URL specific to the target collection. Optional parameters are passed as object in the last argument. In this case a callback function for the onLoaded trigger is set. Once the tracker is fully loaded the function worldLoaded() is called.
@@ -13,7 +15,8 @@ var World = {
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
 		AR.logger.debug ("Initializing tracker");
-		this.tracker = new AR.Tracker("images/CliffordTest.wtc", {
+		this.tracker = new AR.Tracker("images/CliffordTest.wtc", 
+		{
 			onLoaded: this.worldLoaded
 		});
 
@@ -33,6 +36,8 @@ var World = {
 			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
+
+
 		AR.logger.debug ("Initializing trackable object");
 		var pageOne = new AR.Trackable2DObject(this.tracker, "Clifford", {
 			onEnterFieldOfVision :
@@ -45,11 +50,54 @@ var World = {
 		AR.logger.debug ("Leaving createOverlays");
 	},
 
-	worldLoaded: function worldLoadedFn() {
+	worldLoaded: function worldLoadedFn()
+	 {
 		AR.logger.debug ("Entering worldLoaded");
 
 		AR.logger.debug ("Leaving worldLoaded");
-	}
+	 }
 };
-
+// end of the world variable
 World.init();
+
+function test () 
+{
+	document.location = "architectsdk://NEEDTHIS";
+}
+
+function changeToBookCovers() 
+{
+		
+		// AR.logger.debug ("Initializing tracker");
+		// this.tracker = new AR.Tracker("images/BookCovers.wtc", 
+		// {
+		// 	onLoaded: World.worldLoaded
+		// });
+
+		
+
+		// /* Create overlay for page one */
+		// AR.logger.debug ("Creating overlays");
+
+		// var imgOne = new AR.ImageResource("images/Clifford.jpg");
+
+		// var overlayOne = new AR.ImageDrawable(imgOne, 1, 
+		// {
+		// 	offsetX: 0,
+		// 	offsetY: 0
+		// });
+
+		
+
+
+		// AR.logger.debug ("Initializing trackable object");
+		// var pageOne = new AR.Trackable2DObject(this.tracker, "Clifford", {
+		// 	onEnterFieldOfVision :
+  //               function openLinkFn() {
+  //                   AR.logger.debug ("Opening Link!");
+  //                   open("android-app://com.google.youtube/http/www.youtube.com/watch?v=ZZ5LpwO-An4");
+  //               }
+		// });
+
+		// AR.logger.debug ("Leaving createOverlays");
+}
