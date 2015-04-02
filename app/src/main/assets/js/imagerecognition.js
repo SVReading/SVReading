@@ -14,19 +14,9 @@ var World = {
 		*/
 		AR.logger.debug ("Initializing tracker");
 		this.tracker = new AR.Tracker("images/CliffordTest.wtc", {
-			onLoaded: this.worldLoaded
-		});
-
-		/*
-			The next step is to create the augmentation. In this example an image resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be connected to an IR target (AR.Trackable2DObject) or a geolocated object (AR.GeoObject). The AR.ImageDrawable is initialized by the image and its size. Optional parameters allow for position it relative to the recognized target.
-		*/
-
-		/* Create overlay for page one */
-		AR.logger.debug ("Creating overlay one");
-		var imgOne = new AR.ImageResource("images/Clifford.jpg");
-		var overlayOne = new AR.ImageDrawable(imgOne, 1, {
-			offsetX: 0,
-			offsetY: 0
+			onLoaded: function worldLoaded(){
+			    AR.logger.debug("WTC file loaded!");
+			}
 		});
 
 		/*
@@ -34,22 +24,30 @@ var World = {
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
 		AR.logger.debug ("Initializing trackable object");
-		var pageOne = new AR.Trackable2DObject(this.tracker, "Clifford", {
-			onEnterFieldOfVision :
-                function openLinkFn() {
-                    AR.logger.debug ("Opening Link!");
-                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
-                }
+		var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
+			onEnterFieldOfVision : this.openNewWTC(targetName);
 		});
 
 		AR.logger.debug ("Leaving createOverlays");
 	},
 
-	worldLoaded: function worldLoadedFn() {
-		AR.logger.debug ("Entering worldLoaded");
+	function openNewWTC(targetName) {
+        AR.logger.debug ("Opening WTC file for: " + targetName);
+        this.bookTracker = new AR.Tracker("images/" + targetName + ".wtc", {
+            onLoaded: function bookWTCLoaded(){
+                AR.logger.debug("WTC file for specific book loaded!");
+            }
+        });
 
-		AR.logger.debug ("Leaving worldLoaded");
-	}
+        var trackableBook = new AR.Tracker(this.bookTracker, "*", {
+            onEnterFieldOfVision:
+                function pageRecognized(targetName){
+                    AR.logger.debug("Recognized book page " + targetName + "!");
+                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
+                }
+        });
+    }
+
 };
 
 World.init();
