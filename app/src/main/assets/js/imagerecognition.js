@@ -29,6 +29,7 @@ var World = {
         var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
             onEnterFieldOfVision:
                  function openNewWTC(targetName) {
+                        targetName = String(targetName);
                         //We got a hit!
                         AR.logger.debug("Opening WTC file for: " + targetName);
 
@@ -36,15 +37,15 @@ var World = {
                         var path = "images/";
                         path = path.concat(targetName, ".wtc");
                         AR.logger.debug(path);
-
-                        this.bookTracker = new AR.Tracker(path, {
+                        var lol = String(path);
+                        this.bookTracker = new AR.Tracker(lol, {
                             onLoaded: function bookWTCLoaded() {
                                 AR.logger.debug("WTC file for specific book loaded!");
                             }
                         });
 
                         //Set up a new wildcard trackable object for the book pages
-                        var trackableBook = new AR.Tracker(this.bookTracker, "*", {
+                        var trackableBook = new AR.Trackable2DObject(this.bookTracker, "*", {
                             onEnterFieldOfVision: function pageRecognized(targetName) {
                                 //We got a hit for a book page
                                 AR.logger.debug("Recognized book page " + targetName + "!");
