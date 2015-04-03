@@ -1,6 +1,8 @@
+var trackerz = ["images/CliffordTest.wtc", "images/joyee.wtc"];
+i = 0;
+
 var World = {
 	loaded: false,
-
 	init: function initFn() {
 		this.createOverlays();
 	},
@@ -13,7 +15,7 @@ var World = {
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
 		AR.logger.debug ("Initializing tracker");
-		this.tracker = new AR.Tracker("images/CliffordTest.wtc", {
+		this.tracker = new AR.Tracker(trackerz[i], {
 			onLoaded: this.worldLoaded
 		});
 
@@ -38,7 +40,10 @@ var World = {
 			onEnterFieldOfVision :
                 function openLinkFn() {
                     AR.logger.debug ("Opening Link!");
+                    AR.logger.debug(trackerz[i]);
                     open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
+
+                    i = i === 1 ? 0 : 1;
                 }
 		});
 
@@ -50,6 +55,7 @@ var World = {
 
 		AR.logger.debug ("Leaving worldLoaded");
 	}
+
 };
 
 World.init();
