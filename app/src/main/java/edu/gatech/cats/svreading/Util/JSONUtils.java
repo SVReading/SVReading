@@ -48,6 +48,13 @@ public class JSONUtils {
         return true;
     }
 
+    /**
+     * This method returns the Uri that is called to open the youtube video outside of this appliation
+     * with the given book name and page number.
+     * @param bookName The book name recognized
+     * @param pageNumber The page number recognized
+     * @return The Uri to the corresponding youtube link, otherwise null if there was no match
+     */
     public static Uri getYoutubeDeeplink(String bookName, int pageNumber){
         if(isJSONFileLoad()){
             try{
@@ -70,5 +77,9 @@ public class JSONUtils {
         }
     }
 
+    /**
+     * A check to see if the json file has been loaded.
+     * @return True if the file is loaded, false otherwise
+     */
     public static boolean isJSONFileLoad(){ return Books != null; }
 }

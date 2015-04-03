@@ -1,53 +1,61 @@
 var World = {
-	loaded: false,
+    loaded: false,
 
-	init: function initFn() {
-		this.createOverlays();
-	},
+    init: function initFn() {
+        this.createOverlays();
+    },
 
-	createOverlays: function createOverlaysFn() {
-		AR.logger.debug ("Entering createOverlays");
-		/*
-			First an AR.Tracker needs to be created in order to start the recognition engine. It is initialized with a URL specific to the target collection. Optional parameters are passed as object in the last argument. In this case a callback function for the onLoaded trigger is set. Once the tracker is fully loaded the function worldLoaded() is called.
-			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
-			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
-		*/
-		AR.logger.debug ("Initializing tracker");
-		this.tracker = new AR.Tracker("images/CliffordTest.wtc", {
-			onLoaded: function worldLoaded(){
-			    AR.logger.debug("WTC file loaded!");
-			}
-		});
+    createOverlays: function createOverlaysFn() {
+        AR.logger.debug("Entering createOverlays");
 
-		/*
-			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
-			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
-		*/
-		AR.logger.debug ("Initializing trackable object");
-		var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
-			onEnterFieldOfVision : this.openNewWTC(targetName);
-		});
-
-		AR.logger.debug ("Leaving createOverlays");
-	},
-
-	function openNewWTC(targetName) {
-        AR.logger.debug ("Opening WTC file for: " + targetName);
-        this.bookTracker = new AR.Tracker("images/" + targetName + ".wtc", {
-            onLoaded: function bookWTCLoaded(){
-                AR.logger.debug("WTC file for specific book loaded!");
+        /*
+        * Initialize the first tracker. This tracker tracks the book covers contained in the given
+        * wtc file.
+        */
+        AR.logger.debug("Initializing tracker");
+        this.tracker = new AR.Tracker("images/BookCovers.wtc", {
+            onLoaded: function worldLoaded() {
+                //The file was loaded
+                AR.logger.debug("WTC file loaded!");
             }
         });
 
-        var trackableBook = new AR.Tracker(this.bookTracker, "*", {
+        /*
+        * Initialize a Trackable2DObject with a wild card so it will recognize any item in the loaded
+        * wtc file (who ever came up with this api is brilliant). When an item is recognized, it calls
+        * onEnterFieldOfVision.
+        */
+        AR.logger.debug("Initializing trackable object");
+        var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
             onEnterFieldOfVision:
-                function pageRecognized(targetName){
-                    AR.logger.debug("Recognized book page " + targetName + "!");
-                    open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
-                }
+                 function openNewWTC(targetName) {
+                        //We got a hit!
+                        AR.logger.debug("Opening WTC file for: " + targetName);
+
+                        //Try to load the wtc file matching the book name
+                        var path = "images/";
+                        path = path.concat(targetName, ".wtc");
+                        AR.logger.debug(path);
+
+                        this.bookTracker = new AR.Tracker(path, {
+                            onLoaded: function bookWTCLoaded() {
+                                AR.logger.debug("WTC file for specific book loaded!");
+                            }
+                        });
+
+                        //Set up a new wildcard trackable object for the book pages
+                        var trackableBook = new AR.Tracker(this.bookTracker, "*", {
+                            onEnterFieldOfVision: function pageRecognized(targetName) {
+                                //We got a hit for a book page
+                                AR.logger.debug("Recognized book page " + targetName + "!");
+
+                                //TODO: Call back to android to get the corresponding youtube link from the json file
+                                open("android-app://com.google.youtube/http/www.youtube.com/watch?v=Iu0VTI-ZSHQ");
+                            }
+                        });
+                 }
         });
     }
-
 };
 
 World.init();
