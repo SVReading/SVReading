@@ -1,29 +1,37 @@
 package edu.gatech.cats.svreading.View;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.wikitude.architect.ArchitectView;
 
 import java.io.IOException;
 
 import edu.gatech.cats.svreading.R;
+import edu.gatech.cats.svreading.Util.JSONUtils;
+
 
 public class MainActivity extends Activity {
     /**
      * Holds the Wikitude SDK ArchitectView (where the camera, markers, etc. are rendered)
      */
     private ArchitectView architectView;
+    private TextView bookBeingTracked;
 
-    private static final String WIKITUDE_SDK_KEY = "CSU+/8HIRGJh0bAqaYTpkp6qcnyfV5yEnOIFVEE/5T1N8k84kMJz8puHjhA+V+r7xGnizLw1CVt5/qYuvexwfmZeFwsOyuxetU5AC9F1s5/hzLKDNJOn0GBq8OhfpLnd3Ne3GO+b0ZOJDLmA75x/wWZXvmVtRBMblI94O2oBWmdTYWx0ZWRfX78Y6eenrSsW2xQDO7MkObj6INrJiZOQduDwZ0LtT5Ry85jU0FqBo+SkRvQOJYwYHzDBL00ca4zbDTGeqwgzDTG52hbWDCjvcZ6AH/BIZPxQUm4hNaRV6HRpLXs7AgWfEIpZ9W9r7o3oQq7gxGvkVhEkggE3XMEvFrWai9NXDgCHSeSx3MjVUxjIvHRj81ZsqEhrzq8jlDsO4525BIK+/zJOQfZc+M91apCtlrenLo7+Md1zK/+bgweB9pPXODj88aCA0anDzzUyurxPYMeLo7q6UDx90mLrxYW+AbL4F1PBTQAPaYiSyr+DUrqgGq5e832Bf5dIz/lhSNasE8rrUAe0hX0AbXq2fbk3ED8Ehz2YqCyiN+BW1RJGjbIl8ksYWhtTQ9z12Vkczwdd2dXBPk31B6EBHRFhpbVBiTLgyzxmv4HD9yRfdEGOjTSvCEECmb9yeAle9NnV1eH7i23O44kr30DHk6jBOGERaPT7vgrNMAxiGErTIBE=";
+    private static final String WIKITUDE_SDK_KEY = "YJYA8XUwIpY/HiBUAwQXRL6Y9YE3NoEudB7JS1hr9sHSJajA5aTeSk0UIgUMnbSCglgkTVeJVa2osAcO/C2B4vAQF/EHYpE6+lEKef4Hupmz38VhBcRmOkzqRLtJBu1c/6flA0Adlced4YiH91bsImSPGQd3qpvSqte65bsyLnBTYWx0ZWRfX5d3zzmuBKWJT1f3CV0sl83h6z5Hharg/OY8X5QPkOruX+zSJwCbE4zHvVY6pTqONmKQmzzCvIPvwVlOqub2VLtjJh+xUYahbdliTw4LCAL4AgZt0ErFfAMlYfIsfEyYlOuZqvG4TZoK5tSrs4Cits4TO9GzlMweFbPQRdI53zGg4lDxW2rvdBucRIB9Frfnud7I7QTPH2SExu+YCqWCXibj6sLLT/oS5fuupYv3/eZxFqBqh4XxT3gev4CroSRCXelA9E24jrPyVVeo+2v7jW6loxeOFTTXAlYRd8Wau6GnjvU2GIFy9PSp5kKPz9KGYyuKqsdawIS4lHeJcww8Kf5TOjwPfaPYY6qOvgilDdW/jbYYepftCkPCH+0UrhFU3QluviS199DBt8yQSAYv7cxzBZE9b6Wp8lHeY7RYs44sPlZD1OqFk+svXRKUa5NskOtOcHjr0iBLwbLIED7ZbFIbnDDiCvBYv+PjEGZRhc8L2GzzP+Bm1BqzFqb2U5tcoBuQdawjRnt7";
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -35,12 +43,56 @@ public class MainActivity extends Activity {
         final ArchitectView.ArchitectConfig config = new ArchitectView.ArchitectConfig(WIKITUDE_SDK_KEY);
 
         //Try to create the ArchitectView
-        try{
+        try
+        {
             this.architectView.onCreate(config);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e)
+        {
             this.architectView = null;
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
         }
+
+        JSONUtils.loadJSONFile("Books.json",this);
+
+
+        architectView.registerUrlListener(new ArchitectView.ArchitectUrlListener()
+        {
+            @Override
+            /**
+             * listener used to receive data(a string) being sent from javascript code(ARchitect view). The string comes in
+             * a bookname, page number pair that is cleaned up to and able to index the loaded JSON file to retrieve the page the
+             * Architect view recognized
+             * @param arg0 String from javascript imagerecognition.js file in format of ("architectsdk://" + bookName + "," + pageNum)
+             *              the bookName needs to have underscores removed and pageNum needs to be converted into an Integer
+             */
+            public boolean urlWasInvoked(String arg0)
+            {
+                String linkInfo = arg0.replace("architectsdk://", "");
+                String delims = "[,]";
+                String[] tokens = linkInfo.split(delims);
+                int pageNum=0;
+                String bookName = tokens[0].replace("_"," ");
+                try
+                {
+                     pageNum = Integer.parseInt(tokens[1]);
+                    //Log.i("test","what is the URI " + JSONUtils.getYoutubeDeeplink(tokens[0].replace("_"," "), pageNum));
+
+                    callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
+
+                } catch (NumberFormatException e)
+                {
+                    Log.i("Recognized book cover ","Got a hit on the book cover wtc file not actual book wtc file");
+                }
+
+                return false;
+            }
+        });
+        //end of Url Listener used to receive data from javascript
+
+        //opens up the dialog notifying user to scan a book cover
+        DialogFragment newFragment = new scanBookDialogFragment();
+        newFragment.show(getFragmentManager(), "scanBookDiag");
+
     }
 
     @Override
@@ -93,11 +145,32 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void callYoutube(Uri uri){
+    /**
+     * Method that opens up the youtube link corrresponding to the page that was recognized by ArchitectView
+     * @param uri youtube link details the activity intent needs
+     */
+    public void callYoutube(Uri uri)
+    {
         try{
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (Exception ex){
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * creates the dialog box that opens when the user launches the app. Notifies the user that
+     * a book cover needs to be scanned before user can start reading a specific book
+     */
+    public class scanBookDialogFragment extends DialogFragment
+    {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Scan the book cover of the book you want to read").setPositiveButton("OK", null);
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 }

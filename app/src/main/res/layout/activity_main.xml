@@ -3,9 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.gatech.cats.svreading.View.MainActivity">
-    <!-- Container for the camera fragment -->
-    <com.wikitude.architect.ArchitectView
-        android:id="@+id/architectView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+
+
+        <!-- Container for the camera fragment -->
+        <com.wikitude.architect.ArchitectView
+            android:id="@+id/architectView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:background="@android:color/transparent"/>
+
+
+
+
 </RelativeLayout>

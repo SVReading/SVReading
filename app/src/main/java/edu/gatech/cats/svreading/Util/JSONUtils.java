@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -21,8 +20,7 @@ public class JSONUtils {
     /**
      * The first part of the youtube deep link
      */
-    private static final String deepLink = "android://com.google.youtube/http/";
-
+    private static final String deepLink = "vnd.youtube://";
     /**
      * This method parses a validated JSON file into a JSONObject. The method expects that the file
      * is located within the assets folder (hence the need for Context). It also expects that the
@@ -58,17 +56,20 @@ public class JSONUtils {
     public static Uri getYoutubeDeeplink(String bookName, int pageNumber){
         if(isJSONFileLoad()){
             try{
-                JSONArray pages = (JSONArray) Books.get(bookName);
-                String link = pages.getString(pageNumber);
+
+                JSONObject pages =  Books.getJSONObject(bookName);
+                String link = pages.getString(Integer.toString(pageNumber));
 
                 if(link.contains("www")){
-                    link = link.replace("https://", "");
+                   // link = link.replace("https://", "");
                 } else {
-                    link = link.replace("https://", "www");
+                   //link = link.replace("https://", "www");
                 }
 
                 return Uri.parse(deepLink + link);
-            } catch (Exception ex){
+            }
+            catch (Exception ex)
+            {
                 Log.e("JSONUtils", "Failed to get link for the given book and page number!");
                 return null;
             }
