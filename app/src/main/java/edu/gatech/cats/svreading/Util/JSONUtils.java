@@ -53,18 +53,12 @@ public class JSONUtils {
      * @param pageNumber The page number recognized
      * @return The Uri to the corresponding youtube link, otherwise null if there was no match
      */
-    public static Uri getYoutubeDeeplink(String bookName, int pageNumber){
+    public static Uri getYoutubeDeeplink(String bookName, String pageNumber){
         if(isJSONFileLoad()){
             try{
 
                 JSONObject pages =  Books.getJSONObject(bookName);
-                String link = pages.getString(Integer.toString(pageNumber));
-
-                if(link.contains("www")){
-                   // link = link.replace("https://", "");
-                } else {
-                   //link = link.replace("https://", "www");
-                }
+                String link = pages.getString(pageNumber);
 
                 return Uri.parse(deepLink + link);
             }

@@ -70,11 +70,11 @@ public class MainActivity extends Activity {
                 String linkInfo = arg0.replace("architectsdk://", "");
                 String delims = "[,]";
                 String[] tokens = linkInfo.split(delims);
-                int pageNum=0;
+                String pageNum = "0";
                 String bookName = tokens[0].replace("_"," ");
                 try
                 {
-                     pageNum = Integer.parseInt(tokens[1]);
+                     pageNum = tokens[1];
                     //Log.i("test","what is the URI " + JSONUtils.getYoutubeDeeplink(tokens[0].replace("_"," "), pageNum));
 
                     callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
