@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wikitude.architect.ArchitectView;
 
@@ -52,6 +53,7 @@ public class MainActivity extends Activity {
             Log.e(this.getClass().getName(), "Exception in ArchitectView.onCreate()", e);
         }
 
+        //Load the JSON file of all the books and their pages and youtube videos
         JSONUtils.loadJSONFile("Books.json",this);
 
 
@@ -59,37 +61,29 @@ public class MainActivity extends Activity {
         {
             @Override
             /**
-             * listener used to receive data(a string) being sent from javascript code(ARchitect view). The string comes in
-             * a bookname, page number pair that is cleaned up to and able to index the loaded JSON file to retrieve the page the
-             * Architect view recognized
-             * @param arg0 String from javascript imagerecognition.js file in format of ("architectsdk://" + bookName + "," + pageNum)
-             *              the bookName needs to have underscores removed and pageNum needs to be converted into an Integer
+             * A listener used to receive a string sent from the javascript code. The string comes in
+             * the format: "architectsdk://" + bookName + "," + pageNum. Page number is used as a
+             * String and therefore does not have to be purely a number (ex. Clifford1, Clifford2, etc).
+             * @param arg0 A string containing the corresponding book name and page number recognized.
              */
-            public boolean urlWasInvoked(String arg0)
-            {
+            public boolean urlWasInvoked(String arg0) {
+                //Remove the leading URI scheme
                 String linkInfo = arg0.replace("architectsdk://", "");
+
+                //Split the book name and page number
                 String delims = "[,]";
                 String[] tokens = linkInfo.split(delims);
-                String pageNum = "0";
                 String bookName = tokens[0].replace("_"," ");
-                try
-                {
-                     pageNum = tokens[1];
-                    //Log.i("test","what is the URI " + JSONUtils.getYoutubeDeeplink(tokens[0].replace("_"," "), pageNum));
+                String pageNum = tokens[1];
 
-                    callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
+                callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
 
-                } catch (NumberFormatException e)
-                {
-                    Log.i("Recognized book cover ","Got a hit on the book cover wtc file not actual book wtc file");
-                }
-
+                //Not sure why we pass back false
                 return false;
             }
         });
-        //end of Url Listener used to receive data from javascript
 
-        //opens up the dialog notifying user to scan a book cover
+        //Opens up the dialog notifying user to scan a book cover
         DialogFragment newFragment = new scanBookDialogFragment();
         newFragment.show(getFragmentManager(), "scanBookDiag");
 
@@ -146,7 +140,8 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * Method that opens up the youtube link corrresponding to the page that was recognized by ArchitectView
+     * Method that opens up the youtube link corresponding to the page that was recognized by
+     * ArchitectView. If no youtube video was found the Uri will be null and will throw an exception.
      * @param uri youtube link details the activity intent needs
      */
     public void callYoutube(Uri uri)
@@ -154,15 +149,16 @@ public class MainActivity extends Activity {
         try{
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (Exception ex){
-            ex.printStackTrace();
+            //Notify the user no video for the page was found
+            Toast.makeText(getApplicationContext(), "No video was found for the page!", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
-     * creates the dialog box that opens when the user launches the app. Notifies the user that
-     * a book cover needs to be scanned before user can start reading a specific book
+     * Creates the tutorial dialog box that opens when the user launches the app. Notifies the
+     * user that a book cover needs to be scanned before user can start reading a specific book
      */
-    public class scanBookDialogFragment extends DialogFragment
+    public static class scanBookDialogFragment extends DialogFragment
     {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -1,75 +1,54 @@
 {
-
-"The Fierce Bad Rabbit":
-
-
-         {
-             "0": "K5zPDqjBIVs",
-             "1": "-TMBMJz93wM",
-             "2": "bXqxVcmeaus",
-             "3": "6pRvABQgARE",
-             "4": "6BW7EtwW5uM",
-             "5": "2YBanBwEaho",
-             "6": "V77Qc_-OvT8",
-             "7": "pD5QRJpIM9U",
-             "8": "KWZr2sX0pDQ",
-             "9": "6fyGrP6-oQQ",
-             "10": "8R3T2N0_7gI",
-             "11": "5KZflTyRkZg",
-             "12": "zQLagFg5pHg",
-             "13": "YkP06Zi_vXM",
-             "14": "kfDdj1HgERc"
-
-         }
-
-     ,
-
- "Clifford":
-
-
-          {
-              "0": "iXi6IHFHeIA",
-              "1": "BuMiMBjcvWU"
-          }
-
-      ,
-
-  "Curious George":
-
-
-            {
-                "0": "NmugSMBh_iI",
-                "1": "bMb_cBv3iks"
-            
-            }
-      ,
-
-  "cg dumptruck":
-            {
-                "Scan": "IhNZLSEx2EI",
-                "Scan1":,
-                "Scan2":,
-                "Scan3": "j42ck-cKG0E",
-                "Scan4new": "7eCTUxdelic",
-                "Scan5": "sjXrzS9TJfE",
-                "Scan6": "w5g87mIc-8A"
-                "Scan7": "yRuXLKohyDY",
-                "Scan8": "x5X6fr8_Rmk",
-                "Scan9": "x5X6fr8_Rmk",
-                "Scan10": "mdI4YBIDjhk",
-                "Scan11": "iU-ZkIXmwPA"
-                "Scan12": "NBi338th5tM",
-                "Scan13": "x_DI4tb62oA",
-                "Scan14": "HBhdrIds074",
-                "Scan15": "-Pv8qwXWnus",
-                "Scan16": "MlI9h5cr8aI",
-                "Scan17": "lwiKLiSWApM"
-                "Scan18": "L6kgFa83wpE",
-                "Scan19": "716NeFpSy-o",
-                "Scan20": "JQarion9Lb0",
-                "Scan21": "IuTXtK7zTy0",
-                "Scan22": "G_gRin5QMbQ",
-                "Scan23": "r9svBAnJr7U",
-                "Scan24": "zXuQgTtUM84"
-            }
+    "The Fierce Bad Rabbit": {
+        "0": "K5zPDqjBIVs",
+        "1": "-TMBMJz93wM",
+        "2": "bXqxVcmeaus",
+        "3": "6pRvABQgARE",
+        "4": "6BW7EtwW5uM",
+        "5": "2YBanBwEaho",
+        "6": "V77Qc_-OvT8",
+        "7": "pD5QRJpIM9U",
+        "8": "KWZr2sX0pDQ",
+        "9": "6fyGrP6-oQQ",
+        "10": "8R3T2N0_7gI",
+        "11": "5KZflTyRkZg",
+        "12": "zQLagFg5pHg",
+        "13": "YkP06Zi_vXM",
+        "14": "kfDdj1HgERc"
+    },
+    "Clifford": {
+        "0": "iXi6IHFHeIA",
+        "1": "BuMiMBjcvWU"
+    },
+    "Curious George": {
+        "0": "NmugSMBh_iI",
+        "1": "bMb_cBv3iks"
+    },
+    "cg dumptruck": {
+        "Scan": "IhNZLSEx2EI",
+        "Scan1": "",
+        "Scan2": "",
+        "Scan3": "j42ck-cKG0E",
+        "Scan4new": "7eCTUxdelic",
+        "Scan5": "sjXrzS9TJfE",
+        "Scan6": "w5g87mIc-8A",
+        "Scan7": "yRuXLKohyDY",
+        "Scan8": "x5X6fr8_Rmk",
+        "Scan9": "x5X6fr8_Rmk",
+        "Scan10": "mdI4YBIDjhk",
+        "Scan11": "iU-ZkIXmwPA",
+        "Scan12": "NBi338th5tM",
+        "Scan13": "x_DI4tb62oA",
+        "Scan14": "HBhdrIds074",
+        "Scan15": "-Pv8qwXWnus",
+        "Scan16": "MlI9h5cr8aI",
+        "Scan17": "lwiKLiSWApM",
+        "Scan18": "L6kgFa83wpE",
+        "Scan19": "716NeFpSy-o",
+        "Scan20": "JQarion9Lb0",
+        "Scan21": "IuTXtK7zTy0",
+        "Scan22": "G_gRin5QMbQ",
+        "Scan23": "r9svBAnJr7U",
+        "Scan24": "zXuQgTtUM84"
+    }
 }
