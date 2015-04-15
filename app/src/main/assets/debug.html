@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/default.css">
 </head>
 
-<body>
+<body onLoad="javascript:AR.logger.activateDebugMode();">
     <button style="width:100%; position:fixed; margin-left:-8px" id="changeBookButton"  class="footer" onclick="changeToCover()">Scan a new Book Cover</button>
     <div id="loadingMessage" class="info">Loading ...</div>
 <script src="js/imagerecognition.js"></script>
