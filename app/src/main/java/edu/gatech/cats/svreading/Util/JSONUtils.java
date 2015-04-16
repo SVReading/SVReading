@@ -54,22 +54,25 @@ public class JSONUtils {
      * @return The Uri to the corresponding youtube link, otherwise null if there was no match
      */
     public static Uri getYoutubeDeeplink(String bookName, String pageNumber){
-        if(isJSONFileLoad()){
+        if(isJSONFileLoad())
+        {
             try{
 
                 JSONObject pages =  Books.getJSONObject(bookName);
-
                 if(pages.getString(pageNumber)!=null)
-                   return Uri.parse(deepLink + pages.getString(pageNumber));
+                    return Uri.parse(deepLink + pages.getString(pageNumber));
+
             }
             catch (Exception ex)
             {
                 Log.e("JSONUtils", "Failed to get link for the given book and page number!");
                 return null;
             }
-        } else {
+        } else
+        {
             return null;
         }
+        return null;
     }
 
     /**
