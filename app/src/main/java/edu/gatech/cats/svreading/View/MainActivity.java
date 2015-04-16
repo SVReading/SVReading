@@ -150,13 +150,22 @@ public class MainActivity extends Activity {
      */
     public void callYoutube(Uri uri)
     {
-        try{
-            startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (Exception ex){
-            //Notify the user no video for the page was found
-            Toast.makeText(getApplicationContext(), "No video was found for the page!", Toast.LENGTH_SHORT).show();
+        if (uri != null)
+        {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            } catch (Exception ex) {
+                //Notify the user no video for the page was found
+                Toast.makeText(getApplicationContext(), "No video was found for the page!", Toast.LENGTH_SHORT).show();
+            }
+     }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "This page isn't supported!", Toast.LENGTH_SHORT).show();
         }
-    }
+       }
+
+
 
     /**
      * Creates the tutorial dialog box that opens when the user launches the app. Notifies the
