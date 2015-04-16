@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
         }
 
         //Load the JSON file of all the books and their pages and youtube videos
-        JSONUtils.loadJSONFile("Books.json",this);
+        JSONUtils.loadJSONFile("Books.json", this);
 
 
         architectView.registerUrlListener(new ArchitectView.ArchitectUrlListener()
@@ -73,10 +73,14 @@ public class MainActivity extends Activity {
                 //Split the book name and page number
                 String delims = "[,]";
                 String[] tokens = linkInfo.split(delims);
-                String bookName = tokens[0].replace("_"," ");
-                String pageNum = tokens[1];
+                if(!tokens[0].equals(tokens[1]))//this is the case where the book cover is initially recognized
+                {
+                    String bookName = tokens[0].replace("_", " ");
+                    String pageNum = tokens[1];
 
-                callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
+                    callYoutube(JSONUtils.getYoutubeDeeplink(bookName, pageNum));
+
+                }
 
                 //Not sure why we pass back false
                 return false;

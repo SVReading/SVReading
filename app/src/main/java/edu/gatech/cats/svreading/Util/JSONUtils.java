@@ -58,9 +58,9 @@ public class JSONUtils {
             try{
 
                 JSONObject pages =  Books.getJSONObject(bookName);
-                String link = pages.getString(pageNumber);
 
-                return Uri.parse(deepLink + link);
+                if(pages.getString(pageNumber)!=null)
+                   return Uri.parse(deepLink + pages.getString(pageNumber));
             }
             catch (Exception ex)
             {

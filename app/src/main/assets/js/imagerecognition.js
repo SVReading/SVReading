@@ -42,7 +42,7 @@ var World = {
                     onLoaded: function bookWTCLoaded() {
                         AR.logger.debug("WTC file for specific book loaded!");
                         //Change div text field in the html file to show book currenlty being tracked
-                        document.getElementById('loadingMessage').innerHTML = "<div>" + bookName.replace("_", " ") + "</div>";
+                        document.getElementById('loadingMessage').innerHTML = "<div>" + bookName.replace(/_/g, " ") + "</div>";
                     }
                 });
 
