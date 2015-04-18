@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
         else
         {
             Toast.makeText(getApplicationContext(), "This page isn't supported!", Toast.LENGTH_SHORT).show();
-        }
+        }  
        }
 
 
