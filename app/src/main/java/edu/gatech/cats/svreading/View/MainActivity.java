@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wikitude.architect.ArchitectView;
@@ -24,8 +23,6 @@ public class MainActivity extends Activity {
      * Holds the Wikitude SDK ArchitectView (where the camera, markers, etc. are rendered)
      */
     private ArchitectView architectView;
-    private TextView bookBeingTracked;
-
     private static final String WIKITUDE_SDK_KEY = "YJYA8XUwIpY/HiBUAwQXRL6Y9YE3NoEudB7JS1hr9sHSJajA5aTeSk0UIgUMnbSCglgkTVeJVa2osAcO/C2B4vAQF/EHYpE6+lEKef4Hupmz38VhBcRmOkzqRLtJBu1c/6flA0Adlced4YiH91bsImSPGQd3qpvSqte65bsyLnBTYWx0ZWRfX5d3zzmuBKWJT1f3CV0sl83h6z5Hharg/OY8X5QPkOruX+zSJwCbE4zHvVY6pTqONmKQmzzCvIPvwVlOqub2VLtjJh+xUYahbdliTw4LCAL4AgZt0ErFfAMlYfIsfEyYlOuZqvG4TZoK5tSrs4Cits4TO9GzlMweFbPQRdI53zGg4lDxW2rvdBucRIB9Frfnud7I7QTPH2SExu+YCqWCXibj6sLLT/oS5fuupYv3/eZxFqBqh4XxT3gev4CroSRCXelA9E24jrPyVVeo+2v7jW6loxeOFTTXAlYRd8Wau6GnjvU2GIFy9PSp5kKPz9KGYyuKqsdawIS4lHeJcww8Kf5TOjwPfaPYY6qOvgilDdW/jbYYepftCkPCH+0UrhFU3QluviS199DBt8yQSAYv7cxzBZE9b6Wp8lHeY7RYs44sPlZD1OqFk+svXRKUa5NskOtOcHjr0iBLwbLIED7ZbFIbnDDiCvBYv+PjEGZRhc8L2GzzP+Bm1BqzFqb2U5tcoBuQdawjRnt7";
 
 
@@ -152,18 +149,11 @@ public class MainActivity extends Activity {
     {
         if (uri != null)
         {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
-            } catch (Exception ex) {
-                //Notify the user no video for the page was found
-                Toast.makeText(getApplicationContext(), "No video was found for the page!", Toast.LENGTH_SHORT).show();
-            }
-     }
-        else
-        {
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        } else {
             Toast.makeText(getApplicationContext(), "This page isn't supported!", Toast.LENGTH_SHORT).show();
-        }  
-       }
+        }
+    }
 
 
 
