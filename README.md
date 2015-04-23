@@ -11,7 +11,7 @@ git clone https://github.com/SVReading/SVReading.git
 ```
 
 ## Adding More Books
-The application is set up with easy extensibility in mind, and adding more books only requires three steps (four if you need to create a wikitude account). 
+The application is set up with easy extensibility in mind, and adding more books only requires three steps (four if you need to create a wikitude account). The beginning of the two steps are done within [Wikitude's target manager tool](http://www.wikitude.com/developer/tools/target-manager), and the rest of the work is done within Android Studio (or whatever IDE you prefer).
 
 1. Open the "Book Covers" project folder (create one if does not exist yet)
   1. Drag the book cover(s) image to the add image box
